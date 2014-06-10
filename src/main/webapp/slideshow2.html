@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>スライドショー</title>
+  <link href="jquery.maximage.min.css" rel="stylesheet" type="text/css" media="screen" />
+  <script src="jquery-1.11.1.min.js"></script>
+  <script src="jquery.cycle.all.min.js"></script>
+  <script src="jquery.maximage.min.js"></script>
+</head>
+
+<body>
+
+  <div id="maximage">
+      <img src="img/1.jpg" />
+      <img src="img/2.jpg" />
+      <img src="img/3.jpg" />
+      <img src="img/4.jpg" />
+      <img src="img/5.jpg" />
+  </div>
+
+  <script>
+        jQuery(function($) {
+            $('#maximage').maximage({
+            });
+        });
+  </script>
+
+</body>
+
+</html>
