@@ -3,7 +3,7 @@
 (function() {
 	$(function() { initialize(); });
 
-	var counter = (function() {
+	var _counter = (function() {
 		var count = 0;
 		return function() {
 			return count++;
@@ -30,6 +30,9 @@
 			return false;
 		});
 
+        // 画像の並べ替えと削除.
+        // 複数存在することがあるので.imagesに対してイベントリスナを設定する.
+        // これが出来るのがブラウザアプリの便利なところ.
         var images = $('.images');
         images.on('mouseover', '.image-box', function() {
             $(this).find('.control-box').show();
@@ -46,34 +49,58 @@
             imageBox.insertAfter(imageBox.next());
         });
         images.on('click', '.control-box > button.deleter', function() {
-            if (confirm('削除します。よろしいですか？')) {
-                var imageBox = $(this).parent().parent();
+            var imageBox = $(this).parent().parent();
+            imageBox.hide(function() {
                 var imageId = imageBox.find('img').attr('id');
                 imageBox.remove();
-                delete files_[imageId];
-                console.log(files_);
-            }
+                delete _files[imageId];
+                --_fileCount;
+                if (_fileCount === 0) {
+                    $('.droppable-area button.starter').hide();
+                }
+            });
         });
 
+        // スライドショー開始
         $('button.starter').click(function() {
-            alert('Not Implemented.');
+            if (_fileCount === 0) return;
+            $('.image-container').fadeOut(function() {
+                var maximage = $('#maximage');
+                $('.images img').each(function(i, e) {
+                    maximage.append(e);
+                });
+                maximage.maximage();
+            });
         });
-	}
 
-    var files_ = {};
-	var processFile = function(pFile) {
-		var fr = new FileReader();
+        // 指定の場所以外にドロップしたときに画面遷移するのを防止
+        $(document).on('dragenter', cancel);
+        $(document).on('dragover', cancel);
+        $(document).on('drop', cancel);
+    }
+
+    var maxFileCount = 9;
+    var maxFileSize = 1024 * 1024 * 5; // 5MB
+    var _fileCount = 0;
+    var _files = {};
+    var processFile = function(pFile) {
+        if (_fileCount >= maxFileCount) return;
+        if (pFile.type.lastIndexOf("image/", 0) != 0) return; // TODO エラー通知
+        if (pFile.size >= maxFileSize) return; // TODO エラー通知
+
+        var fr = new FileReader();
         var images = $('.images');
-		$(fr).on('load', function(e) {
-			var imageId = 'image_' + counter();
-            var html = $('#template').render({ imageId: imageId });
+        $(fr).on('load', function(e) {
+            var imageId = 'image_' + _counter();
+            var html = $('#template').render({ fileName: pFile.name, imageId: imageId });
             images.append(html);
-			$('#' + imageId).attr('src', e.target.result);
+            $('#' + imageId).attr('src', e.target.result);
 
-            files_[imageId] = pFile;
-            console.log(files_);
-		});
-		fr.readAsDataURL(pFile);
-	}
+            _files[imageId] = pFile;
+            ++_fileCount;
+            $('.droppable-area button.starter').show();
+        });
+        fr.readAsDataURL(pFile);
+    }
 })();
 

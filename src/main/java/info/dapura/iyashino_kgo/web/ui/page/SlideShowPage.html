@@ -12,7 +12,8 @@
   <script src="jquery.maximage.min.js"></script>
   <script src="jsrender.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script src="SlideShowPage.js"></script>
+  <script src="min/SlideShowPage.min.js"></script>
+  <script src="soundcloud_sdk.js"></script>
 </head>
 
 <body>
@@ -27,7 +28,8 @@
   <div class="droppable-area">
     <img src="logo.png" class="logo" />
     <span>スライドショーに使う写真をドロップ</span>
-    <button class="starter btn btn-primary btn-lg">開始</button>
+    <span>※最大９枚、1ファイル 5MB以内</span>
+    <button class="starter btn btn-primary btn-lg">スライドショーを開始</button>
   </div>
   <div class="images">
   </div>
@@ -36,8 +38,9 @@
       <div class="image-box">
           <div class="control-box">
               <button class="deleter btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
-              <button class="upper btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></button>
-              <button class="downer btn btn-default"><span class="glyphicon glyphicon-arrow-down"></span></button>
+              <span>{{:fileName}}</span>
+              <button class="upper btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
+              <button class="downer btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button>
           </div>
           <img id="{{:imageId}}" >
       </div>
@@ -46,8 +49,6 @@
   <iframe class="sound-cloud" width="100%" height="300" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/67785955&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>
   -->
 </div>
-
-
 
 </wicket:extend>
 
