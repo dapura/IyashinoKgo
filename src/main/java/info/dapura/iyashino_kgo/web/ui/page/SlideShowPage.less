@@ -64,7 +64,8 @@ div.image-container {
         display: inline-block;
         text-align: left;
         position: relative;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        margin-right: 4px;
 
         > .control-box {
             display: none;
@@ -73,15 +74,21 @@ div.image-container {
             position: absolute;
             background: rgba(0,0,0,.3);
             width: @image-box-width;
+            border-radius: 4px;
 
             span.glyphicon-remove {
                 color: rgba(255,230,200,1);
             }
 
             > span {
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 margin-top: 3px;
                 margin-left: 10px;
                 color: rgba(255,255,255,1);
+                font-size: 90%;
+                max-width: 100px;
             }
             > button.upper, button.downer {
                 float: left;
@@ -95,6 +102,15 @@ div.image-container {
             position: relative;
             width: @image-box-width;
             min-height: 50px;
+            border-radius: 4px;
         }
     }
+}
+
+iframe {
+    display: none; /* 埋め込みSoundCloudを隠す */
+}
+
+#maximage {
+    display: none;
 }

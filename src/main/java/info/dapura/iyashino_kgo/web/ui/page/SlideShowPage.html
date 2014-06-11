@@ -12,7 +12,7 @@
   <script src="jquery.maximage.min.js"></script>
   <script src="jsrender.min.js"></script>
   <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script src="min/SlideShowPage.min.js"></script>
+  <script src="SlideShowPage.js"></script>
   <script src="soundcloud_sdk.js"></script>
 </head>
 
@@ -36,7 +36,7 @@
 
   <div id="template" class="template">
       <div class="image-box">
-          <div class="control-box">
+          <div id="{{:controlBoxId}}" class="control-box">
               <button class="deleter btn btn-danger"><span class="glyphicon glyphicon-remove"></span></button>
               <span>{{:fileName}}</span>
               <button class="upper btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
