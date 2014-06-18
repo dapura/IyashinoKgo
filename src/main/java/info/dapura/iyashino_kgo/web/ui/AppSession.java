@@ -1,14 +1,14 @@
 package info.dapura.iyashino_kgo.web.ui;
 
-import java.util.concurrent.atomic.AtomicReference;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import info.dapura.iyashino_kgo.model.FailAuthentication;
 import info.dapura.iyashino_kgo.model.LoginUser;
 import info.dapura.iyashino_kgo.service.IAuthenticationService;
 import info.dapura.iyashino_kgo.web.LoginUserHolder;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
@@ -19,6 +19,7 @@ import org.apache.wicket.request.cycle.RequestCycle;
  * 
  */
 public class AppSession extends WebSession {
+    private static final long                serialVersionUID = -993562397311694898L;
 
     private final AtomicReference<LoginUser> authenticated    = new AtomicReference<>();
 

@@ -1,12 +1,13 @@
 package info.dapura.iyashino_kgo.web.ui;
 
-import jabara.general.ArgUtil;
-import jabara.wicket.LoginPageInstantiationAuthorizer;
-import jabara.wicket.MarkupIdForceOutputer;
 import info.dapura.iyashino_kgo.web.ui.page.LoginPage;
 import info.dapura.iyashino_kgo.web.ui.page.LogoutPage;
 import info.dapura.iyashino_kgo.web.ui.page.RestrictedPageBase;
+import info.dapura.iyashino_kgo.web.ui.page.SlideShowPage;
 import info.dapura.iyashino_kgo.web.ui.page.TopPage;
+import jabara.general.ArgUtil;
+import jabara.wicket.LoginPageInstantiationAuthorizer;
+import jabara.wicket.MarkupIdForceOutputer;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.Session;
@@ -43,18 +44,11 @@ public class WicketApplication extends WebApplication {
     }
 
     /**
-     * @return -
-     */
-    public static WicketApplication get() {
-        return (WicketApplication) WebApplication.get();
-    }
-
-    /**
      * @see org.apache.wicket.Application#getHomePage()
      */
     @Override
     public Class<? extends Page> getHomePage() {
-        return TopPage.class;
+        return SlideShowPage.class;
     }
 
     /**
@@ -164,6 +158,13 @@ public class WicketApplication extends WebApplication {
     private void mountResources() {
         mountResource(Resource.BACK, "brickwall.png", Duration.days(10));
         mountResource(Resource.FAVICON, "favicon.png", Duration.days(10));
+    }
+
+    /**
+     * @return -
+     */
+    public static WicketApplication get() {
+        return (WicketApplication) WebApplication.get();
     }
 
     /**

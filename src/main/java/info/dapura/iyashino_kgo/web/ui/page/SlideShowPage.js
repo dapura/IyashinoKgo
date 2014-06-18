@@ -84,7 +84,7 @@ jQuery(function($) {
                 $('.images img').each(function(i, e) {
                     maximage.append(e);
                 });
-                $('body').append('<iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/147653855&amp;auto_play=true&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>');
+                startMusic();
                 maximage.maximage({
                     cycleOptions: {
                         speed: 4000,
@@ -130,6 +130,26 @@ jQuery(function($) {
         });
         fr.readAsDataURL(pFile);
     }
+
+    var startMusic = (function() {
+    	return function() {
+    		var soundManager;
+	    	SC.initialize({
+	    		client_id: "c6ae25b0cafe3d32bce74d317ea49aa2",
+	    		redirect_uri: "http://example.com/callback.html",
+	    	});
+	    	SC.stream("/tracks/147653855", {
+	    		autoPlay: true,
+	    		onfinish: function() {
+	    			soundManager.play();
+	    		}
+	    	},
+	    	function(pSoundManager) {
+	    		soundManager = pSoundManager;
+	    		console.log(soundManager.play);
+	    	});
+    	};
+    })();
 
     initializeDroppableArea();
     initializeImageBoxes();
