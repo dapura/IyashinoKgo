@@ -80,21 +80,23 @@ jQuery(function($) {
         $('button.starter').click(function() {
             if (_fileCount === 0) return;
             $('.image-container').fadeOut(function() {
-                var maximage = $('#maximage');
-                $('.images img').each(function(i, e) {
-                    maximage.append(e);
-                });
                 startMusic();
-                maximage.maximage({
-                    cycleOptions: {
-                        speed: 4000,
-                        timeout: 6850
-                    },
-                    onFirstImageLoaded: function() {
-                        maximage.fadeIn(2000);
-                    }
-                });
+                startSlideShow();
+                $('#control-box-in-slideshowing').find('> button.newer, > button.saver').fadeIn(1000);
             });
+        });
+    };
+
+    var initializePersistentButtons = function() {
+        var buttonContainer = $('#control-box-in-slideshowing');
+        buttonContainer.find('> button.newer').click(function() {
+            location.reload();
+        });
+        buttonContainer.find('> button.saver').click(function() {
+            alert('will implement...');
+        });
+        buttonContainer.find('> button.selecter').click(function() {
+            alert('will implement...');
         });
     };
 
@@ -131,29 +133,43 @@ jQuery(function($) {
         fr.readAsDataURL(pFile);
     }
 
-    var startMusic = (function() {
-    	return function() {
-    		var soundManager;
-	    	SC.initialize({
-	    		client_id: "c6ae25b0cafe3d32bce74d317ea49aa2",
-	    		redirect_uri: "http://example.com/callback.html",
-	    	});
-	    	SC.stream("/tracks/147653855", {
-	    		autoPlay: true,
-	    		onfinish: function() {
-	    			soundManager.play();
-	    		}
-	    	},
-	    	function(pSoundManager) {
-	    		soundManager = pSoundManager;
-	    		console.log(soundManager.play);
-	    	});
-    	};
-    })();
+    var startMusic = function() {
+        var soundManager;
+        SC.initialize({
+            client_id: "c6ae25b0cafe3d32bce74d317ea49aa2",
+            redirect_uri: "http://example.com/callback.html",
+        });
+        SC.stream("/tracks/147653855", {
+            autoPlay: true,
+            onfinish: function() {
+                soundManager.play();
+            }
+        },
+        function(pSoundManager) {
+            soundManager = pSoundManager;
+        });
+    };
+
+    var startSlideShow = function() {
+        var maximage = $('#maximage');
+        $('.images img').each(function(i, e) {
+            maximage.append(e);
+        });
+        maximage.maximage({
+            cycleOptions: {
+                speed: 4000,
+            timeout: 6850
+            },
+            onFirstImageLoaded: function() {
+                maximage.fadeIn(2000);
+            }
+        });
+    };
 
     initializeDroppableArea();
     initializeImageBoxes();
     initializeSlideShow();
+    initializePersistentButtons();
     suppressDefaultDropAndDropAction();
 });
 

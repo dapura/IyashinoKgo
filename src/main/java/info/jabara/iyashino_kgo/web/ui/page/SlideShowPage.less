@@ -64,7 +64,7 @@ div.image-container {
         display: inline-block;
         text-align: left;
         position: relative;
-        margin-bottom: 10px;
+        margin-bottom: 4px;
         margin-right: 4px;
 
         > .control-box {
@@ -107,10 +107,6 @@ div.image-container {
     }
 }
 
-iframe {
-    display: none; /* 埋め込みSoundCloudを隠す */
-}
-
 #maximage {
     display: none;
 
@@ -128,4 +124,9 @@ iframe {
         border-radius: 50%;
         background: rgba(255,255,255,.7);
     }
+
+    > button.newer, button.saver {
+        display: none;
+    }
+
 }
