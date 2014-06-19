@@ -12,4 +12,11 @@ public final class Environment {
         return "IyashinoKgo"; //$NON-NLS-1$
     }
 
+    /**
+     * @return アプリケーション名の和名.
+     */
+    public static String getApplicationNameInJapanese() {
+        return "癒しのけいご"; //$NON-NLS-1$
+    }
+
 }
