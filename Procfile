@@ -1,1 +1,1 @@
-web:    java -cp src/main/webapp/WEB-INF/classes:target/dependency/* -XX:+UseCompressedOops -Dwicket.configuration=deployment -Dweb.port=${PORT} -javaagent:target/dependency/newrelic-agent.jar -server info.dapura.iyashino_kgo.WebStarter 
+web:    java -cp src/main/webapp/WEB-INF/classes:target/dependency/* -XX:+UseCompressedOops -Dwicket.configuration=deployment -Dweb.port=${PORT} -javaagent:target/dependency/newrelic-agent.jar -server info.jabara.iyashino_kgo.WebStarter 
