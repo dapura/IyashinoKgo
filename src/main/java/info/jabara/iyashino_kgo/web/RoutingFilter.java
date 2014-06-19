@@ -32,8 +32,8 @@ public class RoutingFilter extends RoutingFilterBase {
         }
 
         @Override
-        protected void routingCore() throws Exception {
-            redirectIfMatch(WebInitializer.PATH_ROOT, WebInitializer.PATH_UI);
+        protected void routingCore() {
+            // 処理なし
         }
     }
 

@@ -30,7 +30,10 @@ public abstract class WebPageBase extends WebPage {
     private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
                                                                                "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
 
-    private Label                                    titleLabel;
+    /**
+     * 
+     */
+    protected Label                                  titleLabel;
 
     /**
      * 
@@ -69,13 +72,24 @@ public abstract class WebPageBase extends WebPage {
      * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
      * 
      * @return titleタグの中を表示するラベル.
+     * @see #getTitleLabelModel()
+     * @see #getTitleLabelId()
      */
     @SuppressWarnings({ "nls" })
     protected Label getTitleLabel() {
         if (this.titleLabel == null) {
-            this.titleLabel = new Label("titleLabel", Models.of(getTitleLabelModel().getObject() + " - " + Environment.getApplicationName()));
+            this.titleLabel = new Label(getTitleLabelId(), Models.of(getTitleLabelModel().getObject() + " - " + Environment.getApplicationName()));
         }
         return this.titleLabel;
+    }
+
+    /**
+     * @return -
+     * @see #getTitleLabel()
+     */
+    @SuppressWarnings("static-method")
+    protected final String getTitleLabelId() {
+        return "titleLabel"; //$NON-NLS-1$
     }
 
     /**

@@ -2,7 +2,6 @@ package info.jabara.iyashino_kgo.web;
 
 import info.jabara.iyashino_kgo.Environment;
 import info.jabara.iyashino_kgo.service.IUserService;
-import info.jabara.iyashino_kgo.web.rest.RestApplication;
 import info.jabara.iyashino_kgo.web.ui.WicketApplication;
 import jabara.jpa.util.SystemPropertyToPostgreJpaPropertiesParser;
 
@@ -17,6 +16,7 @@ import javax.servlet.FilterRegistration.Dynamic;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpServlet;
 
 import org.apache.wicket.protocol.http.IWebApplicationFactory;
 import org.apache.wicket.protocol.http.WebApplication;
@@ -29,8 +29,6 @@ import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.sun.jersey.guice.JerseyServletModule;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
-import com.sun.jersey.spi.container.servlet.ServletContainer;
 
 /**
  * 
@@ -40,16 +38,16 @@ public class WebInitializer extends GuiceServletContextListener {
     /**
      * 
      */
-    public static final String PATH_UI   = "/ui/";  //$NON-NLS-1$
+    public static final String PATH_UI   = "/"; //$NON-NLS-1$
 
     /**
      * 
      */
-    public static final String PATH_REST = "/rest/"; //$NON-NLS-1$
+    //    public static final String PATH_REST = "/rest/"; //$NON-NLS-1$
     /**
      * 
      */
-    public static final String PATH_ROOT = "/";     //$NON-NLS-1$
+    public static final String PATH_ROOT = "/"; //$NON-NLS-1$
     /**
      * 
      */
@@ -65,6 +63,8 @@ public class WebInitializer extends GuiceServletContextListener {
         super.contextInitialized(pServletContextEvent);
 
         final ServletContext servletContext = pServletContextEvent.getServletContext();
+
+        addServlet(servletContext, HeartBeat.class).addMapping("/heartbeat"); //$NON-NLS-1$
 
         addFilter(servletContext, GuiceFilter.class) //
                 .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), false, PATH_ROOT + WILD_CARD);
@@ -100,11 +100,11 @@ public class WebInitializer extends GuiceServletContextListener {
                 initializeWicket();
             }
 
-            private void initializeJersey() {
-                final Map<String, String> params = new HashMap<>();
-                params.put(ServletContainer.APPLICATION_CONFIG_CLASS, RestApplication.class.getName());
-                serve(PATH_REST + WILD_CARD).with(GuiceContainer.class, params);
-            }
+            // private void initializeJersey() {
+            // final Map<String, String> params = new HashMap<>();
+            // params.put(ServletContainer.APPLICATION_CONFIG_CLASS, RestApplication.class.getName());
+            // serve(PATH_REST + WILD_CARD).with(GuiceContainer.class, params);
+            // }
 
             private void initializeWicket() {
                 final String path = PATH_UI + WILD_CARD;
@@ -140,7 +140,7 @@ public class WebInitializer extends GuiceServletContextListener {
     @SuppressWarnings("nls")
     private static void addGzipFilter(final ServletContext pServletContext) {
         final Dynamic filter = addFilter(pServletContext, GzipFilter.class);
-        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_REST + WILD_CARD);
+        filter.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), false, PATH_ROOT + WILD_CARD);
         // filter.setInitParameter("minGzipSize", Integer.toString(40));
         filter.setInitParameter("mimeTypes" //
                 , "text/html" //
@@ -153,6 +153,12 @@ public class WebInitializer extends GuiceServletContextListener {
                         + ",application/x-javascript" //
                         + ",image/svg+xml" //
         );
+    }
+
+    private static javax.servlet.ServletRegistration.Dynamic addServlet( //
+            final ServletContext pServletContext //
+            , final Class<? extends HttpServlet> pServletType) {
+        return pServletContext.addServlet(pServletType.getName(), pServletType);
     }
 
     private static String getPersistenceUnitName() {

@@ -157,7 +157,7 @@ public class WicketApplication extends WebApplication {
     @SuppressWarnings({ "nls" })
     private void mountResources() {
         mountResource(Resource.BACK, "brickwall.png", Duration.days(10));
-        mountResource(Resource.FAVICON, "favicon.png", Duration.days(10));
+        mountResource(Resource.FAVICON, "logo.png", Duration.days(10));
     }
 
     /**

@@ -11,6 +11,7 @@ import jabara.wicket.Models;
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.resource.CssResourceReference;
@@ -43,11 +44,22 @@ public class SlideShowPage extends WebPageBase {
     }
 
     /**
+     * @see info.jabara.iyashino_kgo.web.ui.page.WebPageBase#getTitleLabel()
+     */
+    @Override
+    protected Label getTitleLabel() {
+        if (this.titleLabel == null) {
+            this.titleLabel = new Label(getTitleLabelId(), getTitleLabelModel());
+        }
+        return this.titleLabel;
+    }
+
+    /**
      * @see info.jabara.iyashino_kgo.web.ui.page.WebPageBase#getTitleLabelModel()
      */
     @Override
     protected IModel<String> getTitleLabelModel() {
-        return Models.readOnly(Environment.getApplicationName());
+        return Models.readOnly(Environment.getApplicationNameInJapanese());
     }
 
     private Image getLogo() {
