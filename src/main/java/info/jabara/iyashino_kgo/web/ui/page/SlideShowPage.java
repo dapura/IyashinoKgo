@@ -4,6 +4,8 @@
 package info.jabara.iyashino_kgo.web.ui.page;
 
 import info.jabara.iyashino_kgo.Environment;
+import info.jabara.iyashino_kgo.web.ui.WicketApplication;
+import info.jabara.iyashino_kgo.web.ui.WicketApplication.Resource;
 import jabara.wicket.ComponentCssHeaderItem;
 import jabara.wicket.ComponentJavaScriptHeaderItem;
 import jabara.wicket.Models;
@@ -16,7 +18,6 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.request.resource.PackageResourceReference;
 
 /**
  * @author jabaraster
@@ -64,7 +65,7 @@ public class SlideShowPage extends WebPageBase {
 
     private Image getLogo() {
         if (this.logo == null) {
-            this.logo = new Image("logo", new PackageResourceReference(SlideShowPage.class, "logo.png")); //$NON-NLS-1$//$NON-NLS-2$
+            this.logo = new Image("logo", ((WicketApplication) getApplication()).getSharedResourceReference(Resource.FAVICON)); //$NON-NLS-1$
         }
         return this.logo;
     }
@@ -77,6 +78,7 @@ public class SlideShowPage extends WebPageBase {
                 , "jsrender.min.js" //
                 , "bootstrap/js/bootstrap.min.js" //
                 , "soundcloud_sdk.js" //
+                , "jquery.activity-indicator-1.0.0.min.js" //
         };
         for (final String js : jss) {
             pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(SlideShowPage.class, js)));

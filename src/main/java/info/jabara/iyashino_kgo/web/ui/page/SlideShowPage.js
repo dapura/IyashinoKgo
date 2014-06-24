@@ -7,6 +7,22 @@ jQuery(function($) {
     var _fileCount = 0;
     var _files = {};
 
+    var activateIndicator = (function() {
+        var ind = $('#indicator-container');
+        return function() {
+            ind.show();
+            ind.activity();
+        };
+    })();
+
+    var deactivateIndicator = (function() {
+        var ind = $('#indicator-container');
+        return function() {
+            ind.hide();
+            ind.activity(false);
+        };
+    })();
+
     var cancel = function(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -20,6 +36,12 @@ jQuery(function($) {
         };
     })();
 
+    var initializeInputFile = function() {
+        $('input[type="file"]').change(function(e) {
+            processFiles(e.target.files);
+        });
+    };
+
     var initializeDroppableArea = function() {
         var droppable = $('div.droppable-area');
         droppable.on('dragenter', cancel);
@@ -28,12 +50,15 @@ jQuery(function($) {
             cancel(e);
 
             e.originalEvent.dataTransfer.dropEffect = 'copy';
-            var files = e.originalEvent.dataTransfer.files;
-            for (var i = 0, len = files.length; i < len; ++i) {
-                processFile(files[i]);
-            }
-            return false;
+            processFiles(e.originalEvent.dataTransfer.files);
         });
+    };
+
+    var processFiles = function(pFiles) {
+        activateIndicator();
+        for (var i = 0, len = pFiles.length; i < len; ++i) {
+            processFile(pFiles[i]);
+        }
     };
 
     var initializeImageBoxes = function() {
@@ -107,6 +132,7 @@ jQuery(function($) {
         $(document).on('drop', cancel);
     };
 
+    var _loadingCount = 0;
     var processFile = function(pFile) {
         if (_fileCount >= maxFileCount) return;
         if (pFile.type.lastIndexOf("image/", 0) != 0) return; // TODO エラー通知
@@ -129,8 +155,15 @@ jQuery(function($) {
             _files[renderParam.imageId] = pFile;
             ++_fileCount;
             $('.droppable-area button.starter').show();
+
+            --_loadingCount;
+            if (_loadingCount === 0) {
+                deactivateIndicator();
+            }
         });
         fr.readAsDataURL(pFile);
+        ++_loadingCount;
+        activateIndicator();
     }
 
     var startMusic = function() {
@@ -166,6 +199,7 @@ jQuery(function($) {
         });
     };
 
+    initializeInputFile();
     initializeDroppableArea();
     initializeImageBoxes();
     initializeSlideShow();

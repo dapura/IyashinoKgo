@@ -1,9 +1,6 @@
 package info.jabara.iyashino_kgo.web;
 
-import info.jabara.iyashino_kgo.Environment;
-import info.jabara.iyashino_kgo.service.IUserService;
 import info.jabara.iyashino_kgo.web.ui.WicketApplication;
-import jabara.jpa.util.SystemPropertyToPostgreJpaPropertiesParser;
 
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -129,10 +126,6 @@ public class WebInitializer extends GuiceServletContextListener {
         });
     }
 
-    private void initializeDatabase() {
-        this.injector.getInstance(IUserService.class).insertAdministratorIfNotExists();
-    }
-
     private static Dynamic addFilter(final ServletContext pServletContext, final Class<? extends Filter> pFilterType) {
         return pServletContext.addFilter(pFilterType.getName(), pFilterType);
     }
@@ -159,15 +152,6 @@ public class WebInitializer extends GuiceServletContextListener {
             final ServletContext pServletContext //
             , final Class<? extends HttpServlet> pServletType) {
         return pServletContext.addServlet(pServletType.getName(), pServletType);
-    }
-
-    private static String getPersistenceUnitName() {
-        return isDatabaseUrlSet() ? Environment.getApplicationName() : Environment.getApplicationName() + "_WithDataSource"; //$NON-NLS-1$
-    }
-
-    private static boolean isDatabaseUrlSet() {
-        final String p = System.getProperty(SystemPropertyToPostgreJpaPropertiesParser.KEY_DATABASE_URL);
-        return p != null && p.length() > 0;
     }
 
     /**

@@ -1,7 +1,6 @@
 package info.jabara.iyashino_kgo.web.ui.page;
 
 import info.jabara.iyashino_kgo.Environment;
-import info.jabara.iyashino_kgo.web.ui.AppSession;
 import info.jabara.iyashino_kgo.web.ui.WicketApplication;
 import info.jabara.iyashino_kgo.web.ui.WicketApplication.Resource;
 import jabara.general.ArgUtil;
@@ -48,14 +47,6 @@ public abstract class WebPageBase extends WebPage {
     protected WebPageBase(final PageParameters pParameters) {
         super(pParameters);
         this.add(getTitleLabel());
-    }
-
-    /**
-     * @see org.apache.wicket.Component#getSession()
-     */
-    @Override
-    public AppSession getSession() {
-        return (AppSession) super.getSession();
     }
 
     /**
