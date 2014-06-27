@@ -4,9 +4,16 @@ import info.jabara.iyashino_kgo.Environment;
 import info.jabara.iyashino_kgo.web.ui.WicketApplication;
 import info.jabara.iyashino_kgo.web.ui.WicketApplication.Resource;
 import jabara.general.ArgUtil;
+import jabara.general.ExceptionUtil;
+import jabara.general.IoUtil;
 import jabara.wicket.IconHeaderItem;
 import jabara.wicket.JavaScriptUtil;
 import jabara.wicket.Models;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import org.apache.wicket.markup.head.CssHeaderItem;
 import org.apache.wicket.markup.head.IHeaderResponse;
@@ -17,7 +24,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
-import org.apache.wicket.request.resource.ResourceReference;
+import org.apache.wicket.util.io.IOUtils;
 
 /**
  *
@@ -28,8 +35,9 @@ public abstract class WebPageBase extends WebPage {
     private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.css"); //$NON-NLS-1$
     private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css");                    //$NON-NLS-1$
     private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
-            "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
-    private static final ResourceReference           REF_ANALYTICS     = new JavaScriptResourceReference(WebPageBase.class, "analytics.js");        //$NON-NLS-1$
+                                                                               "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
+
+    private static final CharSequence                SCRIPT_ANALYTICS  = loadAnalyticsScript();
 
     /**
      *
@@ -103,6 +111,17 @@ public abstract class WebPageBase extends WebPage {
 
         pResponse.render(JavaScriptHeaderItem.forReference(JavaScriptUtil.JQUERY_1_9_1_REFERENCE));
         pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
-        pResponse.render(JavaScriptHeaderItem.forReference(REF_ANALYTICS));
+        pResponse.render(JavaScriptHeaderItem.forScript(SCRIPT_ANALYTICS, null));
+    }
+
+    private static CharSequence loadAnalyticsScript() {
+        try (InputStream in = IoUtil.toBuffered(WebPageBase.class.getResourceAsStream("google-analytics.js"))) { //$NON-NLS-1$
+            final ByteArrayOutputStream mem = new ByteArrayOutputStream();
+            IOUtils.copy(in, mem);
+            return new String(mem.toByteArray(), Charset.forName("UTF-8")); //$NON-NLS-1$
+
+        } catch (final IOException e) {
+            throw ExceptionUtil.rethrow(e);
+        }
     }
 }
