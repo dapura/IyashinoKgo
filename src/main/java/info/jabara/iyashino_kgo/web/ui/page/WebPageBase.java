@@ -35,9 +35,11 @@ public abstract class WebPageBase extends WebPage {
     private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.css"); //$NON-NLS-1$
     private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css");                    //$NON-NLS-1$
     private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
-                                                                               "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
-
-    private static final CharSequence                SCRIPT_ANALYTICS  = loadAnalyticsScript();
+            "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
+    /**
+     *
+     */
+    protected static final CharSequence              SCRIPT_ANALYTICS  = loadAnalyticsScript();
 
     /**
      *
@@ -111,7 +113,6 @@ public abstract class WebPageBase extends WebPage {
 
         pResponse.render(JavaScriptHeaderItem.forReference(JavaScriptUtil.JQUERY_1_9_1_REFERENCE));
         pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
-        pResponse.render(JavaScriptHeaderItem.forScript(SCRIPT_ANALYTICS, null));
     }
 
     private static CharSequence loadAnalyticsScript() {

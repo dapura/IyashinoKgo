@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package info.jabara.iyashino_kgo.web.ui.page;
 
@@ -28,7 +28,7 @@ public class SlideShowPage extends WebPageBase {
     private Image             logo;
 
     /**
-     * 
+     *
      */
     public SlideShowPage() {
         this.add(getLogo());
@@ -42,6 +42,7 @@ public class SlideShowPage extends WebPageBase {
         super.renderHead(pResponse);
         addStyleSheetToHead(pResponse);
         addJavaScriptToHead(pResponse);
+        pResponse.render(JavaScriptHeaderItem.forScript(SCRIPT_ANALYTICS, null));
     }
 
     /**
@@ -73,12 +74,12 @@ public class SlideShowPage extends WebPageBase {
     private static void addJavaScriptToHead(final IHeaderResponse pResponse) {
         @SuppressWarnings("nls")
         final String[] jss = { "jquery-1.11.1.min.js" //
-                , "jquery.cycle.all.min.js" //
-                , "jquery.maximage.min.js" //
-                , "jsrender.min.js" //
-                , "bootstrap/js/bootstrap.min.js" //
-                , "soundcloud_sdk.js" //
-                , "jquery.activity-indicator-1.0.0.min.js" //
+            , "jquery.cycle.all.min.js" //
+            , "jquery.maximage.min.js" //
+            , "jsrender.min.js" //
+            , "bootstrap/js/bootstrap.min.js" //
+            , "soundcloud_sdk.js" //
+            , "jquery.activity-indicator-1.0.0.min.js" //
         };
         for (final String js : jss) {
             pResponse.render(JavaScriptHeaderItem.forReference(new JavaScriptResourceReference(SlideShowPage.class, js)));
@@ -89,8 +90,8 @@ public class SlideShowPage extends WebPageBase {
     private static void addStyleSheetToHead(final IHeaderResponse pResponse) {
         @SuppressWarnings("nls")
         final String[] csss = { "cssreset-min.css" //
-                , "jquery.maximage.min.css" //
-                , "bootstrap/css/bootstrap.min.css" //
+            , "jquery.maximage.min.css" //
+            , "bootstrap/css/bootstrap.min.css" //
         };
         for (final String css : csss) {
             pResponse.render(CssHeaderItem.forReference(new CssResourceReference(SlideShowPage.class, css)));
