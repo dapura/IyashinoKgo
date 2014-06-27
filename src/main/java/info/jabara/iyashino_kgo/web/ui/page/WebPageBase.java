@@ -17,6 +17,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.request.resource.CssResourceReference;
 import org.apache.wicket.request.resource.JavaScriptResourceReference;
+import org.apache.wicket.request.resource.ResourceReference;
 
 /**
  *
@@ -27,15 +28,16 @@ public abstract class WebPageBase extends WebPage {
     private static final CssResourceReference        REF_BOOTSTRAP_CSS = new CssResourceReference(WebPageBase.class, "bootstrap/css/bootstrap.css"); //$NON-NLS-1$
     private static final CssResourceReference        REF_APP_CSS       = new CssResourceReference(WebPageBase.class, "App.css");                    //$NON-NLS-1$
     private static final JavaScriptResourceReference REF_BOOTSTRAP_JS  = new JavaScriptResourceReference(WebPageBase.class,
-                                                                               "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
+            "bootstrap/js/bootstrap.js");                                        //$NON-NLS-1$
+    private static final ResourceReference           REF_ANALYTICS     = new JavaScriptResourceReference(WebPageBase.class, "analytics.js");        //$NON-NLS-1$
 
     /**
-     * 
+     *
      */
     protected Label                                  titleLabel;
 
     /**
-     * 
+     *
      */
     protected WebPageBase() {
         this(new PageParameters());
@@ -61,7 +63,7 @@ public abstract class WebPageBase extends WebPage {
     /**
      * titleタグの中を表示するラベルです. <br>
      * このメソッドはサブクラスでコンポーネントIDの重複を避けるためにprotectedにしています. <br>
-     * 
+     *
      * @return titleタグの中を表示するラベル.
      * @see #getTitleLabelModel()
      * @see #getTitleLabelId()
@@ -101,5 +103,6 @@ public abstract class WebPageBase extends WebPage {
 
         pResponse.render(JavaScriptHeaderItem.forReference(JavaScriptUtil.JQUERY_1_9_1_REFERENCE));
         pResponse.render(JavaScriptHeaderItem.forReference(REF_BOOTSTRAP_JS));
+        pResponse.render(JavaScriptHeaderItem.forReference(REF_ANALYTICS));
     }
 }
