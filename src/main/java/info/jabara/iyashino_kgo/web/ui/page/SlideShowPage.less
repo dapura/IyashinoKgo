@@ -2,6 +2,9 @@
 @control-box-layer: 100;
 @image-layer: 0;
 
+@pc-width: 1024px;
+@mobile-width: 320px;
+
 html {
     background: rgba(230,230,230,1);
 }
@@ -102,9 +105,9 @@ div.image-container {
         border-radius: 6px;
         text-align: center;
 
-        @media screen and (min-width : 320px) {
+        @media screen and (min-width : @mobile-width) {
         }
-        @media screen and (min-width : 1024px) {
+        @media screen and (min-width : @pc-width) {
             > img {
                 float: left;
             }
@@ -125,6 +128,12 @@ div.image-container {
 
         > button.starter {
             display: none;
+        }
+
+        > .sorry {
+            display: none;
+            margin-top: 20px;
+            font-size: 110%;
         }
     }
 

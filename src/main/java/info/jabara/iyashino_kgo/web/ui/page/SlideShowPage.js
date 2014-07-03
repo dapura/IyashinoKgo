@@ -2,6 +2,24 @@
 
 jQuery(function($) {
 
+    var deactivateApplicationIfNotSupportFileApi = function() {
+        if (window.FileReader) return false;
+        var droppableArea = $('.droppable-area');
+        droppableArea.find('> *').each(function(i, e) {
+            var elem = $(e);
+            if (elem.hasClass('logo')) {
+                return;
+            }
+            elem.hide();
+        });
+        droppableArea.find('> .sorry').show();
+        return true;
+    };
+
+    if (deactivateApplicationIfNotSupportFileApi()) {
+        return;
+    }
+
     var maxFileCount = 9;
     var maxFileSize = 1024 * 1024 * 5; // 5MB
     var _fileCount = 0;
